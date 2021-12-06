@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.searchResults {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.searchBar {
+  margin: 20px;
+}
+
+.videoCard {
+  width: 400px;
+  height: 400px;
+
+  margin: 20px;
+}
+
+.videoCard img {
+  height: 300px;
+  width: 300px;
+}

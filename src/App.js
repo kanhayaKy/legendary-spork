@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
 
-function App() {
+export default function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const API_KEY = "";
+
+  const onSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const onSearchClick = () => {
+    let url =
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=` +
+      searchQuery +
+      "&key=" +
+      API_KEY;
+    fetch(url)
+      .then((response) => response.json())
+      .then((jsonResponse) => {
+        setSearchResults(jsonResponse.items);
+      });
+
+    setSearchResults([]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="searchBar">
+        <input
+          name="searchInput"
+          value={searchQuery}
+          onChange={onSearchInputChange}
+        />
+        <button onClick={onSearchClick}>Search</button>
+      </div>
+
+      <div className="searchResults">
+        {searchResults.map((video) => (
+          <div className="videoCard">
+            <img
+              alt="Vido thumbnail"
+              src={video?.snippet?.thumbnails?.default?.url}
+            />
+            <p>{video?.snippet?.title}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default App;
